@@ -1,0 +1,38 @@
+body {
+    /* set display to flex to make the footer stick to the bottom 
+    of the page.*/
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.red-back {
+    background-color: #b22327;
+}
+
+.white-text {
+    color: rgba(255,255,255,0.9);
+}
+
+.content {
+    width: 80vw;
+}
+
+footer {
+    background-color: #b22327;
+    width: 100vw;
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    font-size: small;
+    text-align: center;
+}
+
+.disclaimer {
+    width: auto;
+}
+
+.contact-info {
+    max-width: 50vw;
+    min-width: 30vw;
+}
