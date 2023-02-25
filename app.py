@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, session
+from flask import Flask, render_template, redirect, flash, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
@@ -18,12 +18,12 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 # Initialize database
 db = "beschwerde.db"
 connecc = sqlite3.connect(db)
-connecc.execute(""" CREATE TABLE IF NOT EXISTS Users (
-    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL,
-    password_hash TEXT NOT NULL)
-""")
-connecc.execute("CREATE UNIQUE INDEX username ON users (username)")
+# connecc.execute(""" CREATE TABLE IF NOT EXISTS Users (
+#     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+#     username TEXT NOT NULL,
+#     password_hash TEXT NOT NULL)
+# """)
+# connecc.execute("CREATE IF NOT EXIST UNIQUE INDEX username ON users (username)")
 dbCursor = connecc.cursor()
 
 
@@ -47,15 +47,18 @@ def register():
     elif request.method == "POST":
         # Ensure user typed in a username
         if not request.form.get("username"):
-            #return error message on top of site
+            #flash error message on top of site
+            flash("Please enter a username.", 'danger')
             return render_template("register.html")
         # Ensure user typed in a password and repeated it
         elif not request.form.get("password") or not request.form.get("confirmPassword"):
-            #return errormessage on top of site
+            #return error message on top of site
+            flash("Please enter a pasword and repeat it.", 'danger')
             return render_template("register.html")
         # Ensure the password was repeated correctly
         elif not request.form.get("password") == request.form.get("confirmPassword"):
             #return yet another error message.
+            flash("Please ensure that the passwords match.", 'danger')
             return render_template("register.html")
 
         # Assign the values to variables
@@ -65,10 +68,12 @@ def register():
         rows = dbCursor.execute("SELECT * FROM Users WHERE username = ?", username)
         if len(rows) != 0:
             # return error message, username exists already.
+            flash("This username already exists.", 'danger')
             return render_template("register.html")
 
         if not check_password_validity(password):
             # return errormessage, password not conform to rules
+            flash("Your password does not meet our requirements.", 'danger')
             return render_template("register.html")
         else:
             passwordHash = generate_password_hash(password)
@@ -79,18 +84,28 @@ def register():
         # Query the database again
         rows = dbCursor.execute("SELECT * FROM users WHERE username = ?", username)
 
+        # Check if a user is already logged in and clear session if yes, 
+        # So the old user is logged out.
+        if session["user_id"]:
+            session.clear()
+
         # Log user in
         session["user_id"] = rows[0]["id"]
         # display "you are registered!"
+        flash("You are now registered and logged in. :)", 'success')
         return redirect("/")
 
 @app.route("/login")
 def login():
     return render_template("login.html")
 
-@app.route("/logout")
+@app.route("/logout", methods=["GET", "POST"])
 def logout():
-    return render_template("logout.html")
+    if request.method == "GET":
+        return render_template("logout.html")
+    else:
+        session.clear()
+        return render_template("logout.html")
 
 @app.route("/faq")
 def faq():

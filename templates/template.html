@@ -103,8 +103,20 @@
         </nav>
 
 
-
-        <header></header>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <header>
+                {% for category, message in messages %}
+                <!-- 
+                    categories: message, error, info, warning
+                    in bootstrap usable: primary, secondary, success, danger,
+                        warning, info, light, dark
+                -->
+                <div class="alert alert-{{ category }} text-center" role="alert">{{ message }}</div>
+                {% endfor %}
+            </header>
+            {% endif %}
+        {% endwith %}
 
         <main class="text-center py-5 mx-auto content">
             {% block main %}{% endblock %}
