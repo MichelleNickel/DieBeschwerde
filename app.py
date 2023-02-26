@@ -16,20 +16,20 @@ Session(app)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Initialize database
-db = "beschwerde.db"
-connecc = sqlite3.connect(db)
-# connecc.execute(""" CREATE TABLE IF NOT EXISTS Users (
-#     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-#     username TEXT NOT NULL,
-#     password_hash TEXT NOT NULL)
-# """)
+#db = "beschwerde.db"
+connecc = sqlite3.connect('beschwerde.db', check_same_thread=False)
+connecc.execute(""" CREATE TABLE IF NOT EXISTS Users (
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    password_hash TEXT NOT NULL)
+""")
 # connecc.execute("CREATE IF NOT EXIST UNIQUE INDEX username ON users (username)")
 dbCursor = connecc.cursor()
 
 
 @app.route("/")
 def index():
-    if not session["user_id"]:
+    if "user_id" in session:
         return render_template("home.html")
     else:
         return redirect("/about")
@@ -38,6 +38,7 @@ def index():
 @app.route("/about")
 def about():
     return render_template("about.html")
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register(): 
@@ -65,8 +66,8 @@ def register():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        rows = dbCursor.execute("SELECT * FROM Users WHERE username = ?", username)
-        if len(rows) != 0:
+        dbCursor.execute("SELECT * FROM Users WHERE username = ?", [username])
+        if len(dbCursor.fetchall()) != 0:
             # return error message, username exists already.
             flash("This username already exists.", 'danger')
             return render_template("register.html")
@@ -78,39 +79,29 @@ def register():
         else:
             passwordHash = generate_password_hash(password)
 
+        print(username)
+        print(password)
+        print(passwordHash)
         dbCursor.execute("""INSERT INTO Users (username, password_hash) 
         VALUES (?,?)""", (username, passwordHash))
 
         # Query the database again
-        rows = dbCursor.execute("SELECT * FROM users WHERE username = ?", username)
+        dbCursor.execute("SELECT * FROM users WHERE username = ?", [username])
 
         # Check if a user is already logged in and clear session if yes, 
         # So the old user is logged out.
-        if session["user_id"]:
+        if "user_id" in session:
             session.clear()
 
         # Log user in
-        session["user_id"] = rows[0]["id"]
+        #session["user_id"] = dbCursor.fetchall()[0]["id"]
+        session["user_id"] = dbCursor.fetchone()[0]
+        print(session["user_id"])
         # display "you are registered!"
         flash("You are now registered and logged in. :)", 'success')
         return redirect("/")
-
-@app.route("/login")
-def login():
-    return render_template("login.html")
-
-@app.route("/logout", methods=["GET", "POST"])
-def logout():
-    if request.method == "GET":
-        return render_template("logout.html")
-    else:
-        session.clear()
-        return render_template("logout.html")
-
-@app.route("/faq")
-def faq():
-    return render_template("faq.html")
-
+    
+    
 # Check the validity of the password
 def check_password_validity(password):
     symbols = '!?-+'
@@ -129,6 +120,24 @@ def check_password_validity(password):
         return True
     else:
         return False
+    
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/logout", methods=["GET", "POST"])
+def logout():
+    if request.method == "GET":
+        return render_template("logout.html")
+    else:
+        session.clear()
+        return render_template("logout.html")
+    
+
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
 
 
 # Close the db connection if not needed anymore
