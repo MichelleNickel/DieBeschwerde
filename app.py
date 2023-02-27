@@ -16,7 +16,6 @@ Session(app)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Initialize database
-#db = "beschwerde.db"
 connecc = sqlite3.connect('beschwerde.db', check_same_thread=False)
 connecc.execute(""" CREATE TABLE IF NOT EXISTS Users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,8 +29,10 @@ dbCursor = connecc.cursor()
 @app.route("/")
 def index():
     if "user_id" in session:
+        # If a user is logged in, direct them to the homepage
         return render_template("home.html")
     else:
+        # If not, direct them to the about page
         return redirect("/about")
 
 
@@ -42,23 +43,25 @@ def about():
 
 @app.route("/register", methods=["GET", "POST"])
 def register(): 
+    # User reached the site via get request
     if request.method == "GET":
         return render_template("register.html")
     
-    else: # request.method == "POST"
+    # User reached the site via post request
+    else:
         # Ensure user typed in a username
         if not request.form.get("username"):
-            #flash error message on top of site
+            # Flash error message on top of site
             flash("Please enter a username.", 'danger')
             return render_template("register.html")
         # Ensure user typed in a password and repeated it
         elif not request.form.get("password") or not request.form.get("confirmPassword"):
-            #return error message on top of site
+            # Return error message on top of site
             flash("Please enter a pasword and repeat it.", 'danger')
             return render_template("register.html")
         # Ensure the password was repeated correctly
         elif not request.form.get("password") == request.form.get("confirmPassword"):
-            #return yet another error message.
+            # Return yet another error message.
             flash("Please ensure that the passwords match.", 'danger')
             return render_template("register.html")
 
@@ -66,17 +69,20 @@ def register():
         username = request.form.get("username")
         password = request.form.get("password")
 
+        # Check if user is already saved in database
         dbCursor.execute("SELECT * FROM Users WHERE username = ?", [username])
         if len(dbCursor.fetchall()) != 0:
             # return error message, username exists already.
             flash("This username already exists.", 'danger')
             return render_template("register.html")
 
+        # Ensure password is conform to rules
         if not check_password_validity(password):
             # return errormessage, password not conform to rules
             flash("Your password does not meet our requirements.", 'danger')
             return render_template("register.html")
         else:
+            # Create a hash value of the password
             passwordHash = generate_password_hash(password)
 
         # Insert userdata into the db
@@ -86,14 +92,13 @@ def register():
         # Query the database again
         dbCursor.execute("SELECT * FROM users WHERE username = ?", [username])
 
-        # Check if a user is already logged in and clear session if yes, 
-        # So the old user is logged out.
+        # Check out old user, if someone is still logged in.
         if "user_id" in session:
             session.clear()
 
         # Log user in
         session["user_id"] = dbCursor.fetchone()[0]
-        # display "you are registered!"
+        # Tell the user that they are logged in.
         flash("You are now registered and logged in. :)", 'success')
         return redirect("/")
     
@@ -125,12 +130,12 @@ def login():
     else:
         # Ensure user typed in a username
         if not request.form.get("username"):
-            #flash error message on top of site
+            # Flash error message on top of site
             flash("Please enter your username.", 'danger')
             return render_template("login.html")
         # Ensure user typed in a password
         elif not request.form.get("password"):
-            #return error message on top of site
+            # Return error message on top of site
             flash("Please enter your password.", 'danger')
             return render_template("login.html")
 
@@ -141,7 +146,7 @@ def login():
         # Check if user exists
         dbCursor.execute("SELECT * FROM Users WHERE username = ?", [username])
         if not len(dbCursor.fetchall()) == 1:
-            # return error message, user does not exist yet.
+            # Return error message, user does not exist yet.
             flash("You do not have an account here. Maybe register first?", 'danger')
             return render_template("login.html")
         
@@ -155,22 +160,24 @@ def login():
             flash("Wrong password. Try again pls, you got this ;).", 'danger')
             return render_template("login.html")
           
-        # Log the user in by saving it's id in session
         # Get user_id from database
         dbCursor.execute("SELECT user_id FROM Users WHERE username = ?", [username])
         userID = dbCursor.fetchone()[0]
-
-        
-
+    
+        # Save user_id in session (log them in)
         session["user_id"] = userID
         flash("You are now logged in. Hello :)", 'success')
         return redirect("/")
 
 @app.route("/logout", methods=["GET", "POST"])
 def logout():
+    # If user reached this site via GET
     if request.method == "GET":
+        # Show logout page
         return render_template("logout.html")
+    # If user reached this site via POST
     else:
+        # Clear the session (log the user out)
         session.clear()
         flash("You are now logged out. Goodbye :)", 'success')
         return redirect("/")
@@ -180,6 +187,7 @@ def logout():
 def faq():
     return render_template("faq.html")
 
+# Commit the changes to the database.
 connecc.commit()
 
 # Close the db connection if not needed anymore
