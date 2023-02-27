@@ -45,7 +45,7 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
     
-    elif request.method == "POST":
+    else: # request.method == "POST"
         # Ensure user typed in a username
         if not request.form.get("username"):
             #flash error message on top of site
@@ -79,9 +79,7 @@ def register():
         else:
             passwordHash = generate_password_hash(password)
 
-        print(username)
-        print(password)
-        print(passwordHash)
+        # Insert userdata into the db
         dbCursor.execute("""INSERT INTO Users (username, password_hash) 
         VALUES (?,?)""", (username, passwordHash))
 
@@ -94,9 +92,7 @@ def register():
             session.clear()
 
         # Log user in
-        #session["user_id"] = dbCursor.fetchall()[0]["id"]
         session["user_id"] = dbCursor.fetchone()[0]
-        print(session["user_id"])
         # display "you are registered!"
         flash("You are now registered and logged in. :)", 'success')
         return redirect("/")
@@ -122,9 +118,53 @@ def check_password_validity(password):
         return False
     
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    if request.method == "GET":
+        return render_template("login.html")
+    else:
+        # Ensure user typed in a username
+        if not request.form.get("username"):
+            #flash error message on top of site
+            flash("Please enter your username.", 'danger')
+            return render_template("login.html")
+        # Ensure user typed in a password
+        elif not request.form.get("password"):
+            #return error message on top of site
+            flash("Please enter your password.", 'danger')
+            return render_template("login.html")
+
+        # Assign variables
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        # Check if user exists
+        dbCursor.execute("SELECT * FROM Users WHERE username = ?", [username])
+        if not len(dbCursor.fetchall()) == 1:
+            # return error message, user does not exist yet.
+            flash("You do not have an account here. Maybe register first?", 'danger')
+            return render_template("login.html")
+        
+        # Get password hash from database
+        dbCursor.execute("SELECT password_hash FROM Users WHERE username = ?", [username])
+        savedHash = dbCursor.fetchone()[0]
+
+        # Compare password hash from db to typed in password by user
+        if not check_password_hash(savedHash, password):
+            # If not equal, let the user know and do not log them in
+            flash("Wrong password. Try again pls, you got this ;).", 'danger')
+            return render_template("login.html")
+          
+        # Log the user in by saving it's id in session
+        # Get user_id from database
+        dbCursor.execute("SELECT user_id FROM Users WHERE username = ?", [username])
+        userID = dbCursor.fetchone()[0]
+
+        
+
+        session["user_id"] = userID
+        flash("You are now logged in. Hello :)", 'success')
+        return redirect("/")
 
 @app.route("/logout", methods=["GET", "POST"])
 def logout():
@@ -132,13 +172,15 @@ def logout():
         return render_template("logout.html")
     else:
         session.clear()
-        return render_template("logout.html")
+        flash("You are now logged out. Goodbye :)", 'success')
+        return redirect("/")
     
 
 @app.route("/faq")
 def faq():
     return render_template("faq.html")
 
+connecc.commit()
 
 # Close the db connection if not needed anymore
 # connecc.close()

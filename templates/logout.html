@@ -6,9 +6,9 @@
 
 {% block main %}
 
-    <div class="mb-5">
+    <form action="/logout" method="post" class="my-5">
         <div class="mb-2 center"><p>Are you sure you want to log out?</p></div>
-        <div class="mb-3 center"><button type="button" class="btn btn-outline-danger">Logout</button></div>
-    </div>
+        <div class="mb-3 center"><button type="submit" class="btn btn-outline-danger">Logout</button></div>
+    </form>  
 
 {% endblock %}
