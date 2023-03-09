@@ -1,10 +1,21 @@
 from flask import Flask, render_template, redirect, flash, request, session
 from flask_session import Session
+from flask_mail import Mail, Message
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
+import os
 
 
 app = Flask(__name__)
+
+# Configure mail properties to be able to send Emails.
+app.config["MAIL_SERVER"] = "mail.gmx.net"
+app.config["MAIL_PORT"] = 587
+app.config["MAIL_USERNAME"] = "michelle.nickel96@gmx.de"
+app.config["MAIL_PASSWORD"] = os.environ.get("DB_PASSWORD")
+app.config["MAIL_USE_TLS"] = True
+app.config["MAIL_USE_SSL"] = False
+mail = Mail(app)
 
 # Ensure the session is not permanent and expires at some point.
 app.config["SESSION_PERMANENT"] = False
@@ -194,4 +205,4 @@ connecc.commit()
 # connecc.close()
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

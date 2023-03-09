@@ -1,15 +1,17 @@
 body {
-    /* set display to flex to make the footer stick to the bottom 
+    /* Set display to flex to make the footer stick to the bottom 
     of the page.*/
     height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
+/* Give certain elements, like navbar and footer, a red background. */
 .red-back {
     background-color: #b22327;
 }
 
+/* Make the text white. */
 .white-text {
     color: rgba(255,255,255,0.9);
 }
@@ -18,8 +20,8 @@ body {
     width: 80vw;
 }
 
+/* Give the footer a flexbox display to show disclaimer and info next to each other. */
 footer {
-    background-color: #b22327;
     width: 100vw;
     margin-top: auto;
     display: flex;
