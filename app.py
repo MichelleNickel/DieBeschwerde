@@ -204,5 +204,10 @@ connecc.commit()
 # Close the db connection if not needed anymore
 # connecc.close()
 
+
+@app.route("/complain")
+def complain():
+    return render_template("test.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
