@@ -38,7 +38,7 @@
             <div class="form-wrapper">
                 <div class="form_1 data_info">
                     <h2>Who is complaining?</h2>
-                    <!-- hier einzelne form fields oder ein großes? -->
+                    <!-- seperate form fields or one big one? -->
                     <div class="form-fields">
                         <div class="input-field">
                             <label for="name">Last name:</label>
@@ -54,9 +54,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="form_2 data_info">
+                <div class="form_2">
                     <h2>Who is the cultprit?</h2>
-                    <!-- hier einzelne form fields oder ein großes? -->
+                    <!-- seperate form fields or one big one? -->
                     <div class="form-fields">
                         <div class="input-field">
                             <label for="company">Company</label>
@@ -68,29 +68,168 @@
                         </div>
                     </div>
                 </div>
-                <div class="form_3 data_info">
+                <div class="form_3">
+                    <h2>When did it happen?</h2>
+                    <!-- seperate form fields or one big one? -->
+                    <div class="form-fields">
+                        <div class="input-fields">
+                            <label for="date">The Date (DD.MM.YYYY)</label>
+                            <input type="date" name="date" id="date">
+                        </div>
+                        <div class="input-fields">
+                            <label for="time">The Time, if you can name it (hh:mm)</label>
+                            <input type="time" name="time" id="time">
+                        </div>
+                    </div>
+                </div>
+                <div class="form_4">
                     <h2>What happened?</h2>
-                    <!-- hier einzelne form fields oder ein großes? -->
+                    <!-- seperate form fields or one big one? -->
                     <div class="form-fields">
                         <div class="input-field">
                             <label for="crime">The Crime</label>
                             <select name="crime" id="crime" required>
-                                <option value="Punktlichkeit" disable selected>Pünktlichkeit</option>
-                                <option value="">Service und Umgangsformen</option>
-                                <option value="">ÖPNV-Angebot</option>
-                                <option value="">Tarifangebot</option>
-                                <option value="">Inernet/Informationen</option>
-                                <option value="">Sicherheit</option>
-                                <option value="">Sauberkeit</option>
-                                <option value="">Komfort</option>
-                                <option value="">regiomove-App</option>
-                                <option value="">KVV.nextbike</option>
-                                <option value="">EVA-Shuttle</option>
-                                <option value="">Sonstiges</option>
+                                <option value="noCrime" disable selected>Please choose one</option>
+                                <!-- Pünktlichkeit -->
+                                <option value="punctuality">Punctuality</option>
+                                <!-- Service und Umgangsformen-->
+                                <option value="serviceManners">Service and manners</option>
+                                <!-- ÖPNV Angebot -->
+                                <option value="oPNVOffert">"ÖPNV"-Offers</option>
+                                <!-- Tarifangebot -->
+                                <option value="fareRates">Fare rate</option>
+                                <!-- Internet und Informationen -->
+                                <option value="internetInformationen">Internet and information</option>
+                                <!-- Sicherheit -->
+                                <option value="safety">Safety</option>
+                                <!-- Sauberkeit -->
+                                <option value="cleanliness">Cleanliness</option>
+                                <!-- Komfort -->
+                                <option value="comfort">Comfort</option>
+                                <!-- regiomove-App -->
+                                <option value="regiomoveApp">regiomove-App</option>
+                                <!-- KVV.nextbike -->
+                                <option value="kVVNextbike">KVV.nextbike</option>
+                                <!-- EVA-Shuttle -->
+                                <option value="eVAShuttle">EVA-Shuttle</option>
+                                <!-- Sonstiges -->
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="input-field">
+                            <label for="crimeDetails">Details, please choose one if applicable</label>
+                            <select name="crimeDetails" id="crimeDetails" required>
+                                <!--Keine Auswahl-->
+                                <option value="noCrimeDetails" selected>No details</option>
+                                <!-- This part should only be shown if "Pünktlichkeit" was chosen in the previous Choice -->
+                                <!--
+                                    .puenktlichkeit
+                                        Bahn/Bus fuhr zu früh ab
+                                        Bahn/Bus kam zu spät
+                                        Bahn/Bus ausgefallen
+                                        Anschluss nicht abgewartet
+                                -->
+                                <option class="punctuality" value="arrivedEarly">Bus/Train departed too early</option>
+                                <option class="punctuality" value="arrivedLate">Bus/Train arrived too late</option>
+                                <option class="punctuality" value="cancelled">Bus/Train was cancelled</option>
+                                <option class="punctuality" value="didNotWait">Connection did not wait</option>
+                                <!-- This part should only be shown if "Service und Umgangsformen" was chose in the previous Choice -->
+                                <!--
+                                    .serviceUmgangsformen
+                                        Fahrer
+                                        Fahrscheinprüfer
+                                        Servicepersonal Kunden/Call center
+                                -->
+                                <option class="serviceManners" value="driver">Driver</option>
+                                <option class="serviceManners" value="ticketValidator">Ticket validator</option>
+                                <option class="serviceManers" value="personel">Servicepersonel Customers/Call center</option>
+                                <!-- This part should only be shown if "ÖPNV-Angebot" was chose in the previous Choice -->
+                                <!--
+                                    .oePNVAngebot
+                                        Betriebszeiten
+                                        Takt
+                                        Fahrzeugauslastung
+                                        Vorschläge Linienanbindung
+                                        Vorschläge Fahrplanänderung
+                                -->
+                                <option class="oPNVOffer" value="operatig Hours">Operating Hours</option>
+                                <option class="oPNVOffer" value="tact">Tact</option>
+                                <option class="oPNVOffer" value="vehicleCapacity">Vehicle capacity</option>
+                                <option class="oPNVOffer" value="suggestion">Suggestion change of lineconnection</option>
+                                <option class="oPNVOffer" value="suggestionShedule">Suggestion change of shedule</option>
+                                <!-- This part should only be shown if "Tarifangebot" was chose in the previous Choice (.tarifangebote)-->
+                                <option class="fareRates" value="rate"></option> //none, außer keine Auswahl?
+                                <!-- This part should only be shown if "Internet und Informationen" was chose in the previous Choice -->
+                                <!--
+                                    .internetInformation
+                                        Ausstattung der Haltestelle
+                                        Internet / Elektrinische Fahrplanauskugt
+                                        Call-Center
+                                        Während Baustellen
+                                -->
+                                <option class="internetInformation" value="stationFitting">Fitting of the statiosns</option>
+                                <option class="internetInformation" value="onlineSchedule">Online shedule</option>
+                                <option class="internetInformation" value="callCenter">Call-Center</option>
+                                <option class="internetInformation" value="infoConstruction">During constructions</option>
+                                <!-- This part should only be shown if "Sicherheit" was chose in the previous Choice -->
+                                <!--
+                                    .sicherheit
+                                        An der Haltestelle
+                                        Im Fahrzeug
+                                        Verhalten anderer Fahrgäste
+                                -->
+                                <option class="safety" value="safetyAtStation">At the station</option>
+                                <option class="safety" value="safetyOnBoard">On board</option>
+                                <option class="safety" value="safetyGuestBehaviour">Behaviour of other guests</option>
+                                <!-- This part should only be shown if "Sauberkeit" was chose in the previous Choice -->
+                                <!--
+                                    .sauberkeit
+                                        An der Haltestelle
+                                        Im Fahrzeug
+                                -->
+                                <option class="cleanliness" value="cleanlinessAtStation">At the station</option>
+                                <option class="cleanliness" value="cleanlinessOnBoard">On board</option>
+                                <!-- This part should only be shown if "Komfort" was chose in the previous Choice -->
+                                <!--
+                                    .komfort
+                                        An der Haltestelle
+                                        Im Fahrzeug
+                                        Belange Mobilitätsingeschränkter Fahrgäste
+                                -->
+                                <option class="comfort" value="comfortAtStation">At the station</option>
+                                <option class="comfort" value="comfortOnBoard">On board</option>
+                                <option class="comfort" value="specialNeeds">Concerns of passengers with restricted mobility</option>
+                                <!-- This part should only be shown if "regiomove-App" was chose in the previous Choice -->
+                                <!--
+                                    .regiomoveApp
+                                        Allgemeines Feedback
+                                        Registrierung Kündigung
+                                        KVV-Tickets
+                                        KVV.nextbike
+                                        Stadtmobil
+                                        Abrechnung
+                                        Technischer Fehler
+                                -->
+                                <option class="regiomoveApp" value="feedback">General Feedback</option>
+                                <option class="regiomoveApp" value="register">Registration / Termination</option>
+                                <option class="regiomoveApp" value="tickets">KVV-Tickets</option>
+                                <option class="regiomoveApp" value="kvvNextbike">KVV.nextbike</option>
+                                <option class="regiomoveApp" value="stadtmobil">Stadtmobil</option>
+                                <option class="regiomoveApp" value="payment">Invoice</option>
+                                <option class="regiomoveApp" value="technicalError">Technical Error</option>
+                                <!-- This part should only be shown if "KVV.nextbike" was chose in the previous Choice -->
+                                <option class="kVVNextbike" value=""></option> // gar keine weitere option...
+                                <!-- This part should only be shown if "EVA-Shuttle" was chose in the previous Choice -->
+                                <option class="eVAShuttle" value=""></option> // ebenfalls
+                                <!-- This part should only be shown if "Sonstiges" was chose in the previous Choice (.sonstiges)-->
+                                <option class="other" value=""></option> // natürlich keine andere Option
                             </select>
                         </div>
                     </div>
                 </div>
+                <!-- <div class="form_5">
+                    <h2></h2>
+                </div> -->
             </div>
             <div class="btns-wrapper"></div>
         </div>
