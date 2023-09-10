@@ -54,9 +54,12 @@ def about():
 
 @app.route("/register", methods=["GET", "POST"])
 def register(): 
+    # Define a constant variable for register.html site
+    REGISTER_PAGE = "register.html"
+
     # User reached the site via get request
     if request.method == "GET":
-        return render_template("register.html")
+        return render_template(REGISTER_PAGE)
     
     # User reached the site via post request
     else:
@@ -64,17 +67,17 @@ def register():
         if not request.form.get("username"):
             # Flash error message on top of site
             flash("Please enter a username.", 'danger')
-            return render_template("register.html")
+            return render_template(REGISTER_PAGE)
         # Ensure user typed in a password and repeated it
         elif not request.form.get("password") or not request.form.get("confirmPassword"):
             # Return error message on top of site
             flash("Please enter a pasword and repeat it.", 'danger')
-            return render_template("register.html")
+            return render_template(REGISTER_PAGE)
         # Ensure the password was repeated correctly
-        elif not request.form.get("password") == request.form.get("confirmPassword"):
+        elif request.form.get("password") != request.form.get("confirmPassword"):
             # Return yet another error message.
             flash("Please ensure that the passwords match.", 'danger')
-            return render_template("register.html")
+            return render_template(REGISTER_PAGE)
 
         # Assign the values to variables
         username = request.form.get("username")
@@ -85,13 +88,13 @@ def register():
         if len(dbCursor.fetchall()) != 0:
             # return error message, username exists already.
             flash("This username already exists.", 'danger')
-            return render_template("register.html")
+            return render_template(REGISTER_PAGE)
 
         # Ensure password is conform to rules
         if not check_password_validity(password):
             # return errormessage, password not conform to rules
             flash("Your password does not meet our requirements.", 'danger')
-            return render_template("register.html")
+            return render_template(REGISTER_PAGE)
         else:
             # Create a hash value of the password
             passwordHash = generate_password_hash(password)
@@ -136,19 +139,21 @@ def check_password_validity(password):
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    LOGIN_PAGE = "login.html"
+
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template(LOGIN_PAGE)
     else:
         # Ensure user typed in a username
         if not request.form.get("username"):
             # Flash error message on top of site
             flash("Please enter your username.", 'danger')
-            return render_template("login.html")
+            return render_template(LOGIN_PAGE)
         # Ensure user typed in a password
         elif not request.form.get("password"):
             # Return error message on top of site
             flash("Please enter your password.", 'danger')
-            return render_template("login.html")
+            return render_template(LOGIN_PAGE)
 
         # Assign variables
         username = request.form.get("username")
@@ -156,10 +161,10 @@ def login():
 
         # Check if user exists
         dbCursor.execute("SELECT * FROM Users WHERE username = ?", [username])
-        if not len(dbCursor.fetchall()) == 1:
+        if len(dbCursor.fetchall()) != 1:
             # Return error message, user does not exist yet.
             flash("You do not have an account here. Maybe register first?", 'danger')
-            return render_template("login.html")
+            return render_template(LOGIN_PAGE)
         
         # Get password hash from database
         dbCursor.execute("SELECT password_hash FROM Users WHERE username = ?", [username])
@@ -169,7 +174,7 @@ def login():
         if not check_password_hash(savedHash, password):
             # If not equal, let the user know and do not log them in
             flash("Wrong password. Try again pls, you got this ;).", 'danger')
-            return render_template("login.html")
+            return render_template(LOGIN_PAGE)
           
         # Get user_id from database
         dbCursor.execute("SELECT user_id FROM Users WHERE username = ?", [username])

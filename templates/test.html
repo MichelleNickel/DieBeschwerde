@@ -7,11 +7,11 @@
 {% block main %}
    
     <form action="/complain" method="post" class="my-5" autocomplete="off" id="complaint-form">
-        <!--
+    <!--
         <div class="mb-3"><input autofocus name="username" placeholder="your username" type="text" required></div>
         <div class="mb-3"><input name="password" placeholder="password" type="password" required></div>
         <div class="mb-3 center"><button type="submit" class="btn btn-outline-danger">Login</button></div>
-        -->
+    -->
         
 
         <div class="form-container">
@@ -93,13 +93,13 @@
                                 <!-- Pünktlichkeit -->
                                 <option value="punctuality">Punctuality</option>
                                 <!-- Service und Umgangsformen-->
-                                <option value="serviceManners">Service and manners</option>
+                                <option value="serviceManners">Service and Manners</option>
                                 <!-- ÖPNV Angebot -->
-                                <option value="oPNVOffert">"ÖPNV"-Offers</option>
+                                <option value="oPNVOffers">"ÖPNV"-Offers</option>
                                 <!-- Tarifangebot -->
                                 <option value="fareRates">Fare rate</option>
                                 <!-- Internet und Informationen -->
-                                <option value="internetInformationen">Internet and information</option>
+                                <option value="internetInformationen">Internet and Information</option>
                                 <!-- Sicherheit -->
                                 <option value="safety">Safety</option>
                                 <!-- Sauberkeit -->
@@ -227,12 +227,263 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="form_5">
-                    <h2></h2>
-                </div> -->
+                <div class="form_5">
+                    <h2>Where did it happen?</h2>
+                    <!-- seperate form fileds or one big one? -->
+                    <div class="form-fields">
+                        <div class="input-fields">
+                            <label for="transportationMethod">Transportation Method</label>
+                            <select name="transportationMethod" id="transportationMethod" required>
+                                <option value="" disable selected>Please choose one</option>
+                                <option value="bus">Bus</option>
+                                <option value="train">Train</option>
+                                </select>
+                        </div>
+                        <div class="input-fields kvv">
+                            <label for="line">Line</label>
+                            <selection name="line" id="line" required>
+                                <option class="bus" value="5E">5E</option>
+                                <option class="bus" value="21">21</option>
+                                <option class="bus" value="22">22</option>
+                                <option class="bus" value="23">23</option>
+                                <option class="bus" value="24">24</option>
+                                <option class="bus" value="26">26</option>
+                                <option class="bus" value="27">27</option>
+                                <option class="bus" value="30">30</option>
+                                <option class="bus" value="31">31</option>
+                                <option class="bus" value="32">32</option>
+                                <option class="bus" value="40">40</option>
+                                <option class="bus" value="42">42</option>
+                                <option class="bus" value="43">43</option>
+                                <option class="bus" value="44">44</option>
+                                <option class="bus" value="45">45</option>
+                                <option class="bus" value="46">46</option>
+                                <option class="bus" value="47">47</option>
+                                <option class="bus" value="50">50</option>
+                                <option class="bus" value="51">51</option>
+                                <option class="bus" value="52">52</option>
+                                <option class="bus" value="55">55</option>
+                                <option class="bus" value="60">60</option>
+                                <option class="bus" value="62">62</option>
+                                <option class="bus" value="70">70</option>
+                                <option class="bus" value="71">71</option>
+                                <option class="bus" value="72">72</option>
+                                <option class="bus" value="73">73</option>
+                                <option class="bus" value="74">74</option>
+                                <option class="bus" value="75">74</option>
+                                <option class="bus" value="76">76</option>
+                                <option class="bus" value="101">101</option>
+                                <option class="bus" value="102">102</option>
+                                <option class="bus" value="103">103</option>
+                                <option class="bus" value="104">104</option>
+                                <option class="bus" value="105">105</option>
+                                <option class="bus" value="106">106</option>
+                                <option class="bus" value="107">107</option>
+                                <option class="bus" value="109">109</option>
+                                <option class="bus" value="110">110</option>
+                                <option class="bus" value="111">111</option>
+                                <option class="bus" value="112">112</option>
+                                <option class="bus" value="113">113</option>
+                                <option class="bus" value="115">115</option>
+                                <option class="bus" value="116">116</option>
+                                <option class="bus" value="117">117</option>
+                                <option class="bus" value="120">120</option>
+                                <option class="bus" value="121">121</option>
+                                <option class="bus" value="122">122</option>
+                                <option class="bus" value="124">124</option>
+                                <option class="bus" value="125">125</option>
+                                <option class="bus" value="126">126</option>
+                                <option class="bus" value="127">127</option>
+                                <option class="bus" value="128">128</option>
+                                <option class="bus" value="130">130</option>
+                                <option class="bus" value="131">131</option>
+                                <option class="bus" value="132">132</option>
+                                <option class="bus" value="133">133</option>
+                                <option class="bus" value="134">134</option>
+                                <option class="bus" value="135">135</option>
+                                <option class="bus" value="136">136</option>
+                                <option class="bus" value="137">137</option>
+                                <option class="bus" value="138">138</option>
+                                <option class="bus" value="139">139</option>
+                                <option class="bus" value="140">140</option>
+                                <option class="bus" value="141">141</option>
+                                <option class="bus" value="142">142</option>
+                                <option class="bus" value="143">143</option>
+                                <option class="bus" value="144">144</option>
+                                <option class="bus" value="145">145</option>
+                                <option class="bus" value="146">146</option>
+                                <option class="bus" value="151">151</option>
+                                <option class="bus" value="152">152</option>
+                                <option class="bus" value="153">153</option>
+                                <option class="bus" value="154">154</option>
+                                <option class="bus" value="155">155</option>
+                                <option class="bus" value="158">158</option>
+                                <option class="bus" value="159">159</option>
+                                <option class="bus" value="181">181</option>
+                                <option class="bus" value="182">182</option>
+                                <option class="bus" value="183">183</option>
+                                <option class="bus" value="185">185</option>
+                                <option class="bus" value="186">186</option>
+                                <option class="bus" value="187">187</option>
+                                <option class="bus" value="188">188</option>
+                                <option class="bus" value="189">189</option>
+                                <option class="bus" value="192">192</option>
+                                <option class="bus" value="193">193</option>
+                                <option class="bus" value="194">194</option>
+                                <option class="bus" value="195">195</option>
+                                <option class="bus" value="198">198</option>
+                                <option class="bus" value="201">201</option>
+                                <option class="bus" value="205">205</option>
+                                <option class="bus" value="206">206</option>
+                                <option class="bus" value="207">207</option>
+                                <option class="bus" value="208">208</option>
+                                <option class="bus" value="212">212</option>
+                                <option class="bus" value="214">214</option>
+                                <option class="bus" value="216">216</option>
+                                <option class="bus" value="218">218</option>
+                                <option class="bus" value="222">222</option>
+                                <option class="bus" value="223">223</option>
+                                <option class="bus" value="224">224</option>
+                                <option class="bus" value="225">225</option>
+                                <option class="bus" value="227">227</option>
+                                <option class="bus" value="231">231</option>
+                                <option class="bus" value="232">232</option>
+                                <option class="bus" value="233">233</option>
+                                <option class="bus" value="234">234</option>
+                                <option class="bus" value="235">235</option>
+                                <option class="bus" value="236">236</option>
+                                <option class="bus" value="239">239</option>
+                                <option class="bus" value="240">240</option>
+                                <option class="bus" value="241">241</option>
+                                <option class="bus" value="242">242</option>
+                                <option class="bus" value="243">243</option>
+                                <option class="bus" value="244">244</option>
+                                <option class="bus" value="245">245</option>
+                                <option class="bus" value="246">246</option>
+                                <option class="bus" value="247">247</option>
+                                <option class="bus" value="248">248</option>
+                                <option class="bus" value="251">251</option>
+                                <option class="bus" value="252">252</option>
+                                <option class="bus" value="252S">252S</option>
+                                <option class="bus" value="253">253</option>
+                                <option class="bus" value="254">254</option>
+                                <option class="bus" value="255">255</option>
+                                <option class="bus" value="259">259</option>
+                                <option class="bus" value="261">261</option>
+                                <option class="bus" value="262">262</option>
+                                <option class="bus" value="263">263</option>
+                                <option class="bus" value="264">264</option>
+                                <option class="bus" value="265">265</option>
+                                <option class="bus" value="266">266</option>
+                                <option class="bus" value="267">267</option>
+                                <option class="bus" value="268">268</option>
+                                <option class="bus" value="269">269</option>
+                                <option class="bus" value="271">271</option>
+                                <option class="bus" value="272">272</option>
+                                <option class="bus" value="273">273</option>
+                                <option class="bus" value="274">274</option>
+                                <option class="bus" value="275">275</option>
+                                <option class="bus" value="281">281</option>
+                                <option class="bus" value="285">285</option>
+                                <option class="bus" value="290">290</option>
+                                <option class="bus" value="291">291</option>
+                                <option class="bus" value="292">292</option>
+                                <option class="bus" value="293">293</option>
+                                <option class="bus" value="527">527</option>
+                                <option class="bus" value="551">551</option>
+                                <option class="bus" value="553">553</option>
+                                <option class="bus" value="555">555</option>
+                                <option class="bus" value="557">557</option>
+                                <option class="bus" value="558">558</option>
+                                <option class="bus" value="559">559</option>
+                                <option class="bus" value="587">587</option>
+                                <option class="bus" value="588">588</option>
+                                <option class="bus" value="589">589</option>
+                                <option class="bus" value="590">590</option>
+                                <option class="bus" value="591">591</option>
+                                <option class="bus" value="592">592</option>
+                                <option class="bus" value="593">593</option>
+                                <option class="bus" value="594">594</option>
+                                <option class="bus" value="595">595</option>
+                                <option class="bus" value="596">596</option>
+                                <option class="bus" value="598">598</option>
+                                <option class="bus" value="599">599</option>
+                                <option class="bus" value="700">700</option>
+                                <option class="bus" value="702">702</option>
+                                <option class="bus" value="716">716</option>
+                                <option class="bus" value="719">719</option>
+                                <option class="bus" value="730">730</option>
+                                <option class="bus" value="733">733</option>
+                                <option class="bus" value="999">999</option>
+                                <option class="bus" value="%e">%e</option>
+                                <option class="bus" value="ALT11">ALT11</option>
+                                <option class="bus" value="ALT12">ALT12</option>
+                                <option class="bus" value="ALT13">ALT13</option>
+                                <option class="bus" value="ALT14">ALT14</option>
+                                <option class="bus" value="ALT16">ALT16</option>
+                                <option class="bus" value="M-BUS">M-BUS</option>
+                                <option class="bus" value="NL13">NL13</option>
+                                <option class="bus" value="NL151">NL151</option>
+                                <option class="bus" value="NL2">NL2</option>
+                                <option class="bus" value="NL3">NL3</option>
+                                <option class="bus" value="NL4">NL4</option>
+                                <option class="bus" value="NL5">NL5</option>
+                                <option class="bus" value="NL6">NL6</option>
+                                <option class="bus" value="X34">X34</option>
+
+                                <option class="train" value="1">1</option>
+                                <option class="train" value="2">2</option>
+                                <option class="train" value="3">3</option>
+                                <option class="train" value="4">4</option>
+                                <option class="train" value="5">5</option>
+                                <option class="train" value="6">6</option>
+                                <option class="train" value="6E">6E</option>
+                                <option class="train" value="8">8</option>
+                                <option class="train" value="16">16</option>
+                                <option class="train" value="17">17</option>
+                                <option class="train" value="18">18</option>
+                                <option class="train" value="IRE1">IRE1</option>
+                                <option class="train" value="RE2">RE2</option>
+                                <option class="train" value="S">S</option>
+                                <option class="train" value="S1">S1</option>
+                                <option class="train" value="S11">S11</option>
+                                <option class="train" value="S12">S12</option>
+                                <option class="train" value="S2">S2</option>
+                                <option class="train" value="S3">S3</option>
+                                <option class="train" value="S31">S31</option>
+                                <option class="train" value="S32">S32</option>
+                                <option class="train" value="S34">S34</option>
+                                <option class="train" value="S4">S4</option>
+                                <option class="train" value="S41">S41</option>
+                                <option class="train" value="S42">S42</option>
+                                <option class="train" value="S5">S5</option>
+                                <option class="train" value="S51">S51</option>
+                                <option class="train" value="S52">S52</option>
+                                <option class="train" value="S6">S6</option>
+                                <option class="train" value="S7">S7</option>
+                                <option class="train" value="S71">S71</option>
+                                <option class="train" value="S8">S8</option>
+                                <option class="train" value="S81">S81</option>
+                                <option class="train" value="S9">S9</option>                                
+                            </selection>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="btns-wrapper"></div>
         </div>
     </form>  
+
+    <!-- 
+        note:
+        js to make fields only appear after a certain field was ticked:
+            Crime -> Crime Details
+        js to make only the special options appear
+            punktuality -> all options with punctuality class
+        js to make certain fields required after appearing  
+            bus/train details when kvv but only input field when db.
+
+        db kontakt mail: kundendialog@bahn.de
+    -->
 
 {% endblock %}
